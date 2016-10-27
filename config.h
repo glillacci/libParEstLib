@@ -17,7 +17,7 @@
 #define HAVE_LIBM 1
 
 /* Define to 1 if you have the `stochmod' library (-lstochmod). */
-#define HAVE_LIBSTOCHMOD 1
+/* #undef HAVE_LIBSTOCHMOD */
 
 /* Define to 1 if you have the <memory.h> header file. */
 #define HAVE_MEMORY_H 1
