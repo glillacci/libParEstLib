@@ -2,7 +2,7 @@
 
 # libtool - Provide generalized library-building support services.
 # Generated automatically by config.status (parestlib) 1.0
-# Libtool was configured on host bs-mbp201.d.ethz.ch:
+# Libtool was configured on host lilloMac.local:
 # NOTE: Changes made to this file will be lost: look at ltmain.sh.
 #
 #   Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005,
@@ -63,13 +63,13 @@ ECHO="printf %s\\n"
 
 # The host system.
 host_alias=
-host=x86_64-apple-darwin15.6.0
-host_os=darwin15.6.0
+host=x86_64-apple-darwin16.0.0
+host_os=darwin16.0.0
 
 # The build system.
 build_alias=
-build=x86_64-apple-darwin15.6.0
-build_os=darwin15.6.0
+build=x86_64-apple-darwin16.0.0
+build_os=darwin16.0.0
 
 # A sed program that does not truncate output.
 SED="/usr/bin/sed"
@@ -87,7 +87,7 @@ EGREP="/usr/bin/grep -E"
 FGREP="/usr/bin/grep -F"
 
 # A BSD- or MS-compatible name lister.
-NM="/usr/bin/nm"
+NM="/usr/bin/nm -B"
 
 # Whether we need soft or hard links.
 LN_S="ln -s"
@@ -117,7 +117,7 @@ to_host_file_cmd=func_convert_file_noop
 to_tool_file_cmd=func_convert_file_noop
 
 # An object symbol dumper.
-OBJDUMP="false"
+OBJDUMP="objdump"
 
 # Method to check whether dependent libraries are shared objects.
 deplibs_check_method="pass_all"
@@ -269,7 +269,7 @@ finish_eval=""
 hardcode_into_libs=no
 
 # Compile-time system search path for libraries.
-sys_lib_search_path_spec="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/5.0  /usr/local/lib"
+sys_lib_search_path_spec="/Library/Developer/CommandLineTools/usr/lib/clang/8.0.0  /usr/local/lib"
 
 # Run-time system search path for libraries.
 sys_lib_dlsearch_path_spec="/usr/local/lib /lib /usr/lib"
@@ -289,7 +289,7 @@ striplib="strip -x"
 
 
 # The linker used to build libraries.
-LD="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld"
+LD="/Library/Developer/CommandLineTools/usr/bin/ld"
 
 # How to create reloadable object files.
 reload_flag=" -r"
@@ -329,7 +329,7 @@ allow_libtool_libs_with_static_runtimes=no
 export_dynamic_flag_spec=""
 
 # Compiler flag to generate shared objects directly from archives.
-whole_archive_flag_spec="\`for conv in \$convenience\\\"\\\"; do test  -n \\\"\$conv\\\" && new_convenience=\\\"\$new_convenience \${wl}-force_load,\$conv\\\"; done; func_echo_all \\\"\$new_convenience\\\"\`"
+whole_archive_flag_spec=""
 
 # Whether the compiler copes with passing no objects directly.
 compiler_needs_object="no"
@@ -341,13 +341,13 @@ old_archive_from_new_cmds=""
 old_archive_from_expsyms_cmds=""
 
 # Commands used to build a shared archive.
-archive_cmds="\$CC -dynamiclib \$allow_undefined_flag -o \$lib \$libobjs \$deplibs \$compiler_flags -install_name \$rpath/\$soname \$verstring \$single_module"
-archive_expsym_cmds="sed 's,^,_,' < \$export_symbols > \$output_objdir/\${libname}-symbols.expsym~\$CC -dynamiclib \$allow_undefined_flag -o \$lib \$libobjs \$deplibs \$compiler_flags -install_name \$rpath/\$soname \$verstring \$single_module \${wl}-exported_symbols_list,\$output_objdir/\${libname}-symbols.expsym"
+archive_cmds="\$CC -dynamiclib \$allow_undefined_flag -o \$lib \$libobjs \$deplibs \$compiler_flags -install_name \$rpath/\$soname \$verstring \$single_module~\$DSYMUTIL \$lib || :"
+archive_expsym_cmds="sed 's,^,_,' < \$export_symbols > \$output_objdir/\${libname}-symbols.expsym~\$CC -dynamiclib \$allow_undefined_flag -o \$lib \$libobjs \$deplibs \$compiler_flags -install_name \$rpath/\$soname \$verstring \$single_module \${wl}-exported_symbols_list,\$output_objdir/\${libname}-symbols.expsym~\$DSYMUTIL \$lib || :"
 
 # Commands used to build a loadable module if different from building
 # a shared archive.
-module_cmds="\$CC \$allow_undefined_flag -o \$lib -bundle \$libobjs \$deplibs \$compiler_flags"
-module_expsym_cmds="sed -e 's,^,_,' < \$export_symbols > \$output_objdir/\${libname}-symbols.expsym~\$CC \$allow_undefined_flag -o \$lib -bundle \$libobjs \$deplibs \$compiler_flags \${wl}-exported_symbols_list,\$output_objdir/\${libname}-symbols.expsym"
+module_cmds="\$CC \$allow_undefined_flag -o \$lib -bundle \$libobjs \$deplibs \$compiler_flags~\$DSYMUTIL \$lib || :"
+module_expsym_cmds="sed -e 's,^,_,' < \$export_symbols > \$output_objdir/\${libname}-symbols.expsym~\$CC \$allow_undefined_flag -o \$lib -bundle \$libobjs \$deplibs \$compiler_flags \${wl}-exported_symbols_list,\$output_objdir/\${libname}-symbols.expsym~\$DSYMUTIL \$lib || :"
 
 # Whether we are building with GNU ld or not.
 with_gnu_ld="no"

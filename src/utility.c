@@ -18,10 +18,13 @@
 #include "parestlib.h"
 
 
-// Matrix product for dummies!!
+/**
+ * Matrix product for dummies!!
+ */
 int easy_matrix_product (gsl_matrix * p, const gsl_matrix * a, const gsl_matrix * b)
 {
 	// Compute the product using BLAS library
+	int c;
 	return gsl_blas_dgemm (CblasNoTrans, CblasNoTrans, 1.0, a, b, 0.0, p);
 }
 
