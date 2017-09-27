@@ -15,7 +15,7 @@
  *	Creative Commons, 171 2nd Street, Suite 300, San Francisco, California, 94105, USA.
  */
 
-#include <parestlib.h>
+#include "../parestlib.h"
 
 /**
  This function scans the TEXT segment of an FCS file, and positions the file cursor to

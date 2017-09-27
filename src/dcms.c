@@ -13,11 +13,11 @@
  *	is given to the original author, all derivative works are distributed under the same license or a compatible one,
  *	and this software and its derivatives are not used for commercial purposes.
  *	For more information, visit http://creativecommons.org/licenses/by-nc-sa/3.0/ or contact
- *	Creative Commons, 171 2nd Street, Suite 300, San Francisco, California, 94105, USA. 
+ *	Creative Commons, 171 2nd Street, Suite 300, San Francisco, California, 94105, USA.
  */
 
 
-#include <parestlib.h>
+#include "../parestlib.h"
 
 
 /**
@@ -53,13 +53,13 @@ void mPower (double *A, int eA, double *V, int *eV, int m, int n)
  using the numerical procedure described in Marsaglia 2003.
  */
 double kolmogorov_cdf_marsaglia (int n, double d)
-{ 
+{
     int k,m,i,j,g,eH,eQ;
     double h,s,*H,*Q;
-    
+
     //OMIT NEXT LINE IF YOU REQUIRE >7 DIGIT ACCURACY IN THE RIGHT TAIL
     s=d*d*n; if(s>7.24||(s>3.76&&n>99)) return 1-2*exp(-(2.000071+.331/sqrt(n)+1.409/n)*s);
-    
+
     k=(int)(n*d)+1; m=2*k-1; h=k-n*d;
     H=(double*)malloc((m*m)*sizeof(double));
     Q=(double*)malloc((m*m)*sizeof(double));
@@ -97,28 +97,28 @@ double kolmogorov_cdf_inverse (int M, double q)
     double r = 0.5;
     double x_lo = 0.0, x_hi = 1.0;
     gsl_function F;
-    
+
     // Set initial guesses using the DKW bounds
     x_hi = sqrt(-1/(2*(double)M)*log((1-q)/2));
-    
+
     F.function = &kolmogorov_cdf_roots;
     double pars[2];
     pars[0] = (double) M;
     pars[1] = q;
     F.params = pars;
-    
+
     T = gsl_root_fsolver_brent;
     s = gsl_root_fsolver_alloc (T);
     gsl_root_fsolver_set (s, &F, x_lo, x_hi);
-    
- 
-    printf ("\n\nusing %s method\n", 
+
+
+    printf ("\n\nusing %s method\n",
             gsl_root_fsolver_name (s));
-    
+
     printf ("%5s [%9s, %9s] %9s %9s\n",
-            "iter", "lower", "upper", "root", 
+            "iter", "lower", "upper", "root",
             "err(est)");
-    
+
     do
     {
         iter++;
@@ -130,16 +130,16 @@ double kolmogorov_cdf_inverse (int M, double q)
                                          0, 0.001);
         if (status == GSL_SUCCESS)
             printf ("Converged:\n");
-        
+
         printf ("%5d [%.7f, %.7f] %.7f %.7f\n",
                 iter, x_lo, x_hi,
-                r, 
+                r,
                 x_hi - x_lo);
     }
     while (status == GSL_CONTINUE && iter < max_iter);
-    
+
     gsl_root_fsolver_free (s);
-    
+
     return r;
 }
 
@@ -153,19 +153,19 @@ int kolmogorov_cdf_inverse_M (double epsilon, double q)
 	// Set initial guess for M using the DKW bounds
     int M = ceil (-1/(2*epsilon*epsilon)*log((1-q)/2));
     double kM = -1.0, kM1 = 1.0;
-    
+
     do
-    {        
+    {
         // Evaluate the Kolmo cdf corresponding to M and M-1
         kM = kolmogorov_cdf_marsaglia (M, epsilon)-q;
         kM1 = kolmogorov_cdf_marsaglia (M+1, epsilon)-q;
-        
+
         printf("M = %d -- kM = %f -- kM1 = %f\n", M, kM, kM1);
-        
+
         M--;
     }
     while (kM>=0 || kM1<=0);
-    
+
     return M+2;
 }
 

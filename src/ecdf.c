@@ -13,10 +13,10 @@
  *	is given to the original author, all derivative works are distributed under the same license or a compatible one,
  *	and this software and its derivatives are not used for commercial purposes.
  *	For more information, visit http://creativecommons.org/licenses/by-nc-sa/3.0/ or contact
- *	Creative Commons, 171 2nd Street, Suite 300, San Francisco, California, 94105, USA. 
+ *	Creative Commons, 171 2nd Street, Suite 300, San Francisco, California, 94105, USA.
  */
 
-#include <parestlib.h>
+#include "../parestlib.h"
 
 
 /**
@@ -30,22 +30,22 @@ ecdf * ecdf_create_from_data (const gsl_vector * data)
 	gsl_vector * tmpdata = gsl_vector_alloc (data->size);
 	gsl_vector_memcpy (tmpdata, data);
 	gsl_sort_vector (tmpdata);
-	
+
 	// Get the number of data points
 	size_t npoints = tmpdata->size;
-	
+
 	// Allocate two empty vectors and set them to all zeros
 	gsl_vector * tmpdata2 = gsl_vector_calloc (npoints);
 	gsl_vector * freq = gsl_vector_calloc (npoints);
-	
+
 	// Copy the first element of tmpdata to tmpdata2
 	gsl_vector_set (tmpdata2, 0, gsl_vector_get (tmpdata, 0));
-	
+
 	// Initialize indices
 	size_t i = 1; // Index to scan the tmpdata vector
 	size_t j = 0; // Index for tmpdata2 vector
 	size_t f = 1; // Frequency count
-	
+
 	// Scan tmpdata for multiple occurrencies of the same value
 	while (i < tmpdata->size)
 	{
@@ -55,7 +55,7 @@ ecdf * ecdf_create_from_data (const gsl_vector * data)
 			i++;
 			f++;
 		}
-		else 
+		else
 		{
 			// The next element of tmpdata is different from the last element of tmpdata2
 			// Set the frequency of the last element
@@ -69,36 +69,36 @@ ecdf * ecdf_create_from_data (const gsl_vector * data)
 			f = 1;
 		}
 	}
-	
+
 	// Process the last data point
 	gsl_vector_set (tmpdata2, j, gsl_vector_get (tmpdata, i-1));
 	gsl_vector_set (freq, j, f);
-	
+
 	// The index j is now set to the last element that was transfered
 	gsl_vector_view tmpdata2view = gsl_vector_subvector (tmpdata2, 0, j+1);
 	gsl_vector_view	freqview = gsl_vector_subvector (freq, 0, j+1);
-	
+
 	// Allocate memory for the new ecdf object.
 	ecdf * dist = (ecdf *) malloc (sizeof (ecdf));
-	
+
 	// If malloc fails, warn the user and return NULL
 	if (dist == NULL) {
 		printf(">>> warning: can not allocate memory for ecdf object...");
 		return NULL;
 	}
 	// Otherwise...
-	else 
+	else
 	{
 		// Set the number of points in the ecdf
 		dist->N = (&tmpdata2view.vector)->size;
-		
+
 		// Allocate the xdata and ydata vectors
 		dist->xdata = gsl_vector_calloc (dist->N);
 		dist->ydata = gsl_vector_calloc (dist->N);
-		
+
 		// Copy the sorted and trimmed data vector into the ecdf xdata
 		gsl_vector_memcpy (dist->xdata, &tmpdata2view.vector);
-		
+
 		// Fill up the ydata vector
 		// First point
 		gsl_vector_set (dist->ydata, 0, gsl_vector_get(&freqview.vector, 0)/((double) npoints));
@@ -106,12 +106,12 @@ ecdf * ecdf_create_from_data (const gsl_vector * data)
 		for (size_t i = 1; i < dist->N; i++) {
 			gsl_vector_set (dist->ydata, i, gsl_vector_get (dist->ydata, i-1) + gsl_vector_get(&freqview.vector, i)/((double) npoints));
 		}
-		
+
 		// Free all the manually allocated resources
 		gsl_vector_free (freq);
 		gsl_vector_free (tmpdata2);
 		gsl_vector_free (tmpdata);
-		
+
 		// Return the pointer
 		return dist;
 	}
@@ -124,7 +124,7 @@ ecdf * ecdf_create_from_data (const gsl_vector * data)
 double ecdf_eval (const ecdf * dist, double x)
 {
 	double ans = 0.0;
-	
+
 	if (x < gsl_vector_get (dist->xdata, 0))
 	{
 		// Evaluation point is smaller than first data point
@@ -141,11 +141,11 @@ double ecdf_eval (const ecdf * dist, double x)
 		while (gsl_vector_get (dist->xdata, i) <= x) {
 			i++;
 		}
-		
+
 		// Return the corresponding value of ydata
 		ans = gsl_vector_get (dist->ydata, i-1);
 	}
-	
+
 	// Return
 	return ans;
 }
@@ -158,13 +158,13 @@ double ecdf_sample (const ecdf * dist, const gsl_rng * r)
 {
 	// Generate a standard uniform random number
 	double u = gsl_rng_uniform (r);
-	
+
 	// Find the first value of f not smaller than u
 	size_t i = 0;
 	while (gsl_vector_get(dist->ydata, i) < u) {
 		i++;
 	}
-	
+
 	// Return the corresponding value of x
 	return gsl_vector_get (dist->xdata, i);
 }
@@ -180,7 +180,7 @@ void ecdf_free (ecdf * dist)
 	// Destroy the xdata and ydata vector
 	gsl_vector_free (dist->xdata);
 	gsl_vector_free (dist->ydata);
-	
+
 	// Free the ecdf struct
 	free (dist);
 }

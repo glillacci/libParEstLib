@@ -12,10 +12,10 @@
  *	is given to the original author, all derivative works are distributed under the same license or a compatible one,
  *	and this software and its derivatives are not used for commercial purposes.
  *	For more information, visit http://creativecommons.org/licenses/by-nc-sa/3.0/ or contact
- *	Creative Commons, 171 2nd Street, Suite 300, San Francisco, California, 94105, USA. 
+ *	Creative Commons, 171 2nd Street, Suite 300, San Francisco, California, 94105, USA.
  */
 
-#include "parestlib.h"
+#include "../parestlib.h"
 
 
 /**
@@ -37,22 +37,22 @@ int easy_matrix_inverse (gsl_matrix * inv, const gsl_matrix * a)
 {
 	// Allocate the permutation p
 	gsl_permutation * p = gsl_permutation_alloc (a->size1);
-	
+
 	// Create another copy of a to prevent its destruction by the LU decomposition
 	gsl_matrix * aa = gsl_matrix_alloc(a->size1, a->size2);
 	gsl_matrix_memcpy (aa, a);
-	
+
 	// Get the LU decomposition of aa
 	int s;
 	gsl_linalg_LU_decomp (aa, p, &s);
-	
+
 	// Get the inverse
 	int r = gsl_linalg_LU_invert (aa, p, inv);
-	
+
 	// Free the allocated resources
 	gsl_permutation_free (p);
 	gsl_matrix_free (aa);
-	
+
 	// Return
 	return r;
 }
@@ -63,12 +63,12 @@ int matlab_semicolon (gsl_matrix * array, double start, double step)
 {
 	int i;
 	size_t samples = array->size2;
-	
+
 	for (i = 0; i < samples; i++)
 	{
 		gsl_matrix_set (array, 0, i, start+i*step);
 	}
-	
+
 	return GSL_SUCCESS;
 }
 
@@ -81,12 +81,12 @@ int concatenate_arrays (double array[], const double array1[], int L1, const dou
 	{
 		array[i] = array1[i];
 	}
-	
+
 	for (i=0; i < L2; i++)
 	{
 		array[i+L1] = array2[i];
 	}
-	
+
 	return GSL_SUCCESS;
 }
 
@@ -106,7 +106,7 @@ int print_matrix (double mat[], int rows, int cols)
 		printf ("\n");
 	}
 	printf ("\n");
-	
+
 	return i*j;
 }
 
@@ -115,7 +115,7 @@ int print_matrix (double mat[], int rows, int cols)
 int print_gsl_matrix (const gsl_matrix * mat)
 {
 	printf ("\n[%dx%d GSL_MATRIX]\n", (int) mat->size1, (int) mat->size2);
-	
+
 	int i, j;
 	for (i=0; i < mat->size1; i++)
 	{
@@ -126,7 +126,7 @@ int print_gsl_matrix (const gsl_matrix * mat)
 		printf ("\n");
 	}
 	printf("\n");
-	
+
 	return i*j;
 }
 
@@ -135,14 +135,14 @@ int print_gsl_matrix (const gsl_matrix * mat)
 int print_gsl_vector (const gsl_vector * v)
 {
 	printf ("\n[%d-GSL_VECTOR]\n", (int) v->size);
-	
+
 	int i;
 	for (i=0; i < v->size; i++)
 	{
 		printf (" %12.6e \n", gsl_vector_get (v, i));
 	}
 	printf("\n");
-	
+
 	return i;
 }
 
@@ -150,20 +150,20 @@ int print_gsl_vector (const gsl_vector * v)
 int print_gsl_subvector (const gsl_vector * v, size_t start, size_t nel)
 {
 	printf ("\n[%d-GSL_VECTOR]\n", (int) v->size);
-	
+
 	if (start > 0)
 		printf (" ...\n");
-	
+
 	for (size_t i = start; i < start + nel; i++)
 	{
 		printf (" %d. %12.6f \n", (int) i, gsl_vector_get (v, i));
 	}
-	
+
 	if (start + nel < v->size)
 		printf (" ...\n");
-	
+
 	printf("\n");
-	
+
 	return nel;
 }
 
@@ -185,7 +185,7 @@ double mean (gsl_matrix * mat)
 {
 	double sum = 0;
 	int i, j, count = 0;
-	
+
 	for (i = 0; i < mat->size1; i++)
 	{
 		for (j = 0; j < mat->size2; j++)
@@ -194,7 +194,7 @@ double mean (gsl_matrix * mat)
 			count++;
 		}
 	}
-	
+
 	return sum/count;
 }
 
@@ -209,7 +209,7 @@ int gsl_matrix_horzcat (gsl_matrix * cat, const gsl_matrix * mat1, const gsl_mat
 		printf ("the two matrices must have the same number of rows...\n");
 		return GSL_EFAILED;
 	}
-	
+
 	// Perform the concatenation
 	int i, j;
 	for (i = 0; i < mat1->size1; i++)
@@ -219,7 +219,7 @@ int gsl_matrix_horzcat (gsl_matrix * cat, const gsl_matrix * mat1, const gsl_mat
 			gsl_matrix_set (cat, i, j, gsl_matrix_get (mat1, i, j));
 		}
 	}
-	
+
 	for (i = 0; i < mat2->size1; i++)
 	{
 		for (j = 0; j < mat2->size2; j++)
@@ -227,7 +227,7 @@ int gsl_matrix_horzcat (gsl_matrix * cat, const gsl_matrix * mat1, const gsl_mat
 			gsl_matrix_set (cat, i, j+mat1->size2, gsl_matrix_get (mat2, i, j));
 		}
 	}
-	
+
 	return GSL_SUCCESS;
 }
 
@@ -242,7 +242,7 @@ int gsl_matrix_vertcat (gsl_matrix * cat, const gsl_matrix * mat1, const gsl_mat
 		printf ("the two matrices must have the same number of columns...\n");
 		return GSL_EFAILED;
 	}
-	
+
 	// Perform the concatenation
 	int i, j;
 	for (i = 0; i < mat1->size1; i++)
@@ -252,7 +252,7 @@ int gsl_matrix_vertcat (gsl_matrix * cat, const gsl_matrix * mat1, const gsl_mat
 			gsl_matrix_set (cat, i, j, gsl_matrix_get (mat1, i, j));
 		}
 	}
-	
+
 	for (i = 0; i < mat2->size1; i++)
 	{
 		for (j = 0; j < mat2->size2; j++)
@@ -260,32 +260,32 @@ int gsl_matrix_vertcat (gsl_matrix * cat, const gsl_matrix * mat1, const gsl_mat
 			gsl_matrix_set (cat, i+mat1->size1, j, gsl_matrix_get (mat2, i, j));
 		}
 	}
-	
+
 	return GSL_SUCCESS;
 }
 
 
-/** 
+/**
  This function sets the elements of a gsl_vector object to a specified double array.
  */
 void gsl_vector_set_array (gsl_vector * v, double elem[])
 {
 	// Get a view for the array elem[]
 	gsl_vector_view ev = gsl_vector_view_array (elem, v->size);
-	
+
 	// Set the elements of v
 	gsl_vector_memcpy (v, &ev.vector);
 }
 
 
-/** 
+/**
  This function fills up a gsl_matrix with the elements of a constant double array in row major order.
  */
 void gsl_matrix_set_array (gsl_matrix * mat, double elem[])
 {
 	// Get a view for the array elem[]
 	gsl_matrix_view ev = gsl_matrix_view_array (elem, mat->size1, mat->size2);
-	
+
 	// Set the elements of mat
 	gsl_matrix_memcpy (mat, &ev.matrix);
 }
