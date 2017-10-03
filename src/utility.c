@@ -3,16 +3,21 @@
  *
  *  This file implements some functions that do silly things in an easy way!!
  *
- *  Created by Gabriele Lillacci in July 2008.
- *	Latest revision: May 2009.
+ *  This file is part of libParEstLib.
+ *  Copyright 2011-2017 Gabriele Lillacci.
  *
+ *  libParEstLib is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
  *
- *	This free software is available under the Creative Commons Attribution Non-Commercial Share Alike License.
- *	You are permitted to use, share, copy, redistribute and adapt this software as long as appropriate credit
- *	is given to the original author, all derivative works are distributed under the same license or a compatible one,
- *	and this software and its derivatives are not used for commercial purposes.
- *	For more information, visit http://creativecommons.org/licenses/by-nc-sa/3.0/ or contact
- *	Creative Commons, 171 2nd Street, Suite 300, San Francisco, California, 94105, USA.
+ *  libParEstLib is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with libParEstLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #include "../parestlib.h"

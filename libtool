@@ -2,7 +2,7 @@
 
 # libtool - Provide generalized library-building support services.
 # Generated automatically by config.status (parestlib) 1.0
-# Libtool was configured on host lilloMac.local:
+# Libtool was configured on host bs-mbp201.d.ethz.ch:
 # NOTE: Changes made to this file will be lost: look at ltmain.sh.
 #
 #   Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005,
@@ -269,7 +269,7 @@ finish_eval=""
 hardcode_into_libs=no
 
 # Compile-time system search path for libraries.
-sys_lib_search_path_spec="/Library/Developer/CommandLineTools/usr/lib/clang/9.0.0  /usr/local/lib"
+sys_lib_search_path_spec="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/9.0.0  /usr/local/lib"
 
 # Run-time system search path for libraries.
 sys_lib_dlsearch_path_spec="/usr/local/lib /lib /usr/lib"
@@ -289,7 +289,7 @@ striplib="strip -x"
 
 
 # The linker used to build libraries.
-LD="/Library/Developer/CommandLineTools/usr/bin/ld"
+LD="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld"
 
 # How to create reloadable object files.
 reload_flag=" -r"

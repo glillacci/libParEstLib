@@ -2,18 +2,23 @@
  *  parestlib.h
  *  ParEstLib
  *
- *  Header file for ParEstLib
+ *  Library-wide header file for libParEstLib
  *
- *  Created by Gabriele Lillacci in April 2009.
- *	Latest revision: October 2011.
+ *  This file is part of libParEstLib.
+ *  Copyright 2011-2017 Gabriele Lillacci.
  *
+ *  libParEstLib is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
  *
- *	This free software is available under the Creative Commons Attribution Non-Commercial Share Alike License.
- *	You are permitted to use, share, copy, redistribute and adapt this software as long as appropriate credit
- *	is given to the original author, all derivative works are distributed under the same license or a compatible one,
- *	and this software and its derivatives are not used for commercial purposes.
- *	For more information, visit http://creativecommons.org/licenses/by-nc-sa/3.0/ or contact
- *	Creative Commons, 171 2nd Street, Suite 300, San Francisco, California, 94105, USA. 
+ *  libParEstLib is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with libParEstLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #ifndef _PARESTLIB_H_
@@ -31,7 +36,7 @@
 #include <string.h>
 
 
-/* 
+/*
  GSL library includes
  */
 #include <gsl/gsl_matrix.h>
@@ -46,7 +51,7 @@
 #include <gsl/gsl_roots.h>
 
 
-/* 
+/*
  Custom library includes
  */
 #include <stochmod.h>
@@ -104,7 +109,7 @@ int hekf_time_update_x (double tCurrent, double tNext, const gsl_vector * xPlus,
 						int (* ptrToJac) (double, const double[], double *, double[], void *), void * params);
 int hekf_time_update_p (double tCurrent, double tNext, const gsl_matrix * pPlus, gsl_matrix * pMinus, LyapunovEquation * eqn);
 int hekf_compute_gain (gsl_matrix * L, const gsl_matrix * pMinus, const gsl_matrix * H, const gsl_matrix * R);
-int hekf_measurement_update_x (double tCurrent, const gsl_vector * xMinus, gsl_vector * xPlus, const gsl_matrix * L, 
+int hekf_measurement_update_x (double tCurrent, const gsl_vector * xMinus, gsl_vector * xPlus, const gsl_matrix * L,
 							   const gsl_vector * mCurrent, int (* ptrToOutput) (double, const double[], double[], void *), void * params);
 int hekf_measurement_update_p (gsl_matrix * pPlus, const gsl_matrix * pMinus, const gsl_matrix * L,
 							   const gsl_matrix * H, const gsl_matrix * R);
@@ -136,7 +141,7 @@ gsl_vector * gsl_vector_realloc (gsl_vector * oldvec, size_t newsize);
  */
 int generate_measurements (int (* ptrToFunc) (double, const double[], double[], void *),
 						   int (* ptrToJac) (double, const double[], double *, double[], void *),
-						   int (* ptrToOutput) (double, const double[], double[], void *), 
+						   int (* ptrToOutput) (double, const double[], double[], void *),
 						   const gsl_matrix * time, gsl_matrix * sig, const gsl_matrix * R, const gsl_matrix * xZero, void * params);
 
 
@@ -183,7 +188,7 @@ double ksdist_two_sample_nr (const gsl_vector * data1, const gsl_vector * data2)
 double ksdist_two_sample_2 (const gsl_vector * data1, const gsl_vector * data2);
 double ksdist_two_sample (const ecdf * ecdf1, const ecdf * ecdf2);
 double ksdist (const gsl_vector * data, double (* exact)(), size_t count, ...);
-double kscost (const gsl_vector * time, const gsl_vector * theta, const gsl_vector * xZero, const gsl_matrix * M, 
+double kscost (const gsl_vector * time, const gsl_vector * theta, const gsl_vector * xZero, const gsl_matrix * M,
 			   const gsl_matrix * exact, int (* ptrToFunc) (double, const double[], double[], void *),
 			   int (* ptrToJac) (double, const double[], double *, double[], void *),
 			   int (* ptrToOutput) (double, const double[], double[], void *), void * params);
